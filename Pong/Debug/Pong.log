@@ -1,0 +1,5 @@
+﻿  Pong.cpp
+f:\c++ projects\pong\pong\pong.cpp(19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+f:\c++ projects\pong\pong\pong.cpp(20): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+f:\c++ projects\pong\pong\pong.cpp(23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Pong.vcxproj -> F:\C++ Projects\Pong\Debug\Pong.exe
