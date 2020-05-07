@@ -1,5 +1,20 @@
-﻿  Pong.cpp
-f:\c++ projects\pong\pong\pong.cpp(19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-f:\c++ projects\pong\pong\pong.cpp(20): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-f:\c++ projects\pong\pong\pong.cpp(23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  Ball.cpp
+f:\c++ projects\pong\pong\ball.cpp(35): warning C4244: '=': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+f:\c++ projects\pong\pong\ball.cpp(36): warning C4244: '=': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
   Pong.vcxproj -> F:\C++ Projects\Pong\Debug\Pong.exe

@@ -58,9 +58,19 @@ void Bat::aiMovement(Ball& ball, RenderWindow& window, Time dt) {
 		} else {
 			stopRight();
 		}
-		update(dt);
-		
+	} else {
+		if (getPosition().left < window.getSize().x / 2 - getPosition().width) {
+			moveRight();
+		} else {
+			stopRight();
+		}
+		if (getPosition().left > window.getSize().x / 2 - getPosition().width) {
+			moveLeft();
+		} else {
+			stopLeft();
+		}
 	}
+	update(dt);
 }
 
 void Bat::setAiBatSpeed(float speed) {

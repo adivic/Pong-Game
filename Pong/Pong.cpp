@@ -32,11 +32,7 @@ int main()
 	hud.setCharacterSize(25);
 	hud.setFillColor(sf::Color::White);
 	hud.setPosition(20, 20);
-	// Find better position for this
-	std::stringstream ss;
-	ss << "Score: " << game->getScore();// << " Lives: " << game->getLives();
-	hud.setString(ss.str());
-	
+
 	while (window.isOpen()) {
 		//Hnadle player input
 		game->handlePlayerInput(window, bat);
@@ -48,6 +44,12 @@ int main()
 		batAi.aiMovement(ball, window, dt);
 
 		game->checkCollision(window,ball, bat, batAi);
+
+		// Find better position for this
+		std::stringstream ss;
+		ss << "Score: " << game->getScore() << "\n\n AI: " << game->getAiScore();
+		hud.setString(ss.str());
+
 
 		//draw everything
 		window.clear();

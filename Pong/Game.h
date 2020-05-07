@@ -6,6 +6,7 @@
 class Game {
 private:
 	int mScore = 0;
+	int mAiScore = 0;
 	int mLives = 3;
 	sf::Vector2i mScreenResolution;
 
@@ -15,6 +16,7 @@ public:
 	sf::Vector2i getScreenResolution();
 
 	int getScore() const;
+	int getAiScore() const;
 	int getLives() const;
 
 	void handlePlayerInput(sf::RenderWindow& window, Bat& bat);

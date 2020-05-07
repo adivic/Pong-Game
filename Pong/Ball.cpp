@@ -31,9 +31,9 @@ void Ball::reboundBatOrTop() {
 	mDirectionY = -mDirectionY;
 }
 
-void Ball::reboundBottom() {
-	mPosition.y = 0;
-	mPosition.x = 500;
+void Ball::reboundBottom(RenderWindow& window) {
+	mPosition.y = window.getSize().y/2;
+	mPosition.x = window.getSize().x /2;
 	mDirectionY = -mDirectionY;
 }
 

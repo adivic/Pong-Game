@@ -20,7 +20,7 @@ public:
 	
 	void reboundSides();
 	void reboundBatOrTop();
-	void reboundBottom();
+	void reboundBottom(RenderWindow& window);
 	void hitTop(float x, float y);
 	void update(Time dt);
 

@@ -12,6 +12,11 @@ int Game::getScore() const {
 	return mScore;
 }
 
+int Game::getAiScore() const {
+	return mAiScore;
+}
+
+
 int Game::getLives() const {
 	return mLives;
 }
@@ -47,10 +52,8 @@ void Game::checkCollision(RenderWindow& window, Ball &ball, Bat& bat, Bat& aiBat
 	}
 	
 	if (ball.getPosition().top > window.getSize().y) {
-		// Reverse ball direction
-		ball.reboundBottom();
-		//mScore++;
-		//mLives--;
+		ball.reboundBottom(window);
+		mAiScore++;
 
 		if (mLives < 1) {
 			mScore = 0;
@@ -64,16 +67,12 @@ void Game::checkCollision(RenderWindow& window, Ball &ball, Bat& bat, Bat& aiBat
 
 	//hits top
 	if (ball.getPosition().top < 0) {
-		//ball.reboundBatOrTop();
 		ball.hitTop(window.getSize().x/2, window.getSize().y/2);
 		mScore++;
 	}
 
-	
-
 	if (ball.getPosition().intersects(bat.getPosition())) {
 		ball.reboundBatOrTop();
-		//mScore++;
 	}
 }
 
