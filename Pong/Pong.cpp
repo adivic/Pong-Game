@@ -18,7 +18,7 @@ int main()
 
 	Bat bat(game->getScreenResolution().x / 2, game->getScreenResolution().y - 20);
 	Bat batAi(game->getScreenResolution().x / 2, 20);
-	batAi.setAiBatSpeed(300.f);
+	batAi.setAiBatSpeed(250.f);
 
 	Ball ball(game->getScreenResolution().x / 2, 50);
 
@@ -31,7 +31,12 @@ int main()
 	hud.setFont(font);
 	hud.setCharacterSize(25);
 	hud.setFillColor(sf::Color::White);
-	hud.setPosition(20, 20);
+	hud.setPosition(20, window.getSize().y - 40);
+	Text aiHud;
+	aiHud.setFont(font);
+	aiHud.setCharacterSize(25);
+	aiHud.setFillColor(sf::Color::White);
+	aiHud.setPosition(20, 20);
 
 	while (window.isOpen()) {
 		//Hnadle player input
@@ -47,13 +52,17 @@ int main()
 
 		// Find better position for this
 		std::stringstream ss;
-		ss << "Score: " << game->getScore() << "\n\n AI: " << game->getAiScore();
+		std::stringstream ssAi;
+		ss << "Score: " << game->getScore();
 		hud.setString(ss.str());
+		ssAi << "AI: " << game->getAiScore();
+		aiHud.setString(ssAi.str());
 
 
 		//draw everything
 		window.clear();
 		window.draw(hud);
+		window.draw(aiHud);
 		window.draw(bat.getShape());
 		window.draw(batAi.getShape());
 		window.draw(ball.getShape());

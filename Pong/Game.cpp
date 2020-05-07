@@ -16,11 +16,6 @@ int Game::getAiScore() const {
 	return mAiScore;
 }
 
-
-int Game::getLives() const {
-	return mLives;
-}
-
 void Game::handlePlayerInput(sf::RenderWindow& window, Bat& bat) {
 	sf::Event event;
 	while (window.pollEvent(event)) {
@@ -54,11 +49,6 @@ void Game::checkCollision(RenderWindow& window, Ball &ball, Bat& bat, Bat& aiBat
 	if (ball.getPosition().top > window.getSize().y) {
 		ball.reboundBottom(window);
 		mAiScore++;
-
-		if (mLives < 1) {
-			mScore = 0;
-			mLives = 3;
-		}
 	}
 
 	if (ball.getPosition().intersects(aiBat.getPosition())) {
@@ -73,6 +63,13 @@ void Game::checkCollision(RenderWindow& window, Ball &ball, Bat& bat, Bat& aiBat
 
 	if (ball.getPosition().intersects(bat.getPosition())) {
 		ball.reboundBatOrTop();
+	}
+}
+
+void Game::checkGameEnd() {
+	if (mScore == 5 || mAiScore == 5) {
+		mScore = 0;
+		mAiScore = 0;
 	}
 }
 

@@ -7,7 +7,7 @@ class Ball {
 private:
 	Vector2f mPosition;
 	RectangleShape mShape;
-	float mSpeed = 1000.f;
+	float mSpeed = 1200.f;
 	float mDirectionX = .2f;
 	float mDirectionY = .2f;
 
