@@ -18,7 +18,7 @@ int main()
 
 	Bat bat(game->getScreenResolution().x / 2, game->getScreenResolution().y - 20);
 	Bat batAi(game->getScreenResolution().x / 2, 20);
-	batAi.setAiBatSpeed(250.f);
+	batAi.setAiBatSpeed(280.f);
 
 	Ball ball(game->getScreenResolution().x / 2, 50);
 

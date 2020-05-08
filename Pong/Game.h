@@ -21,4 +21,6 @@ public:
 	void checkCollision(RenderWindow& window, Ball &ball, Bat& bat, Bat&);
 
 	void checkGameEnd();
+
+	bool isOverlappinig(CircleShape circle, FloatRect rect);
 };

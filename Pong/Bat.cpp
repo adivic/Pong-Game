@@ -45,15 +45,15 @@ void Bat::update(Time dt) {
 
 void Bat::aiMovement(Ball& ball, RenderWindow& window, Time dt) {
 	
-	if (ball.getPosition().top < window.getSize().y /2 ) {
+	if (ball.getShape().getPosition().y < window.getSize().y /2 ) {
 		
 
-		if (ball.getPosition().left < getPosition().left && (getPosition().left) >= 0) {
+		if (ball.getShape().getPosition().x < getPosition().left && (getPosition().left) >= 0) {
 			moveLeft();
 		} else {
 			stopLeft();
 		}
-		if (ball.getPosition().left > getPosition().left  && (getPosition().left) <= window.getSize().x - getPosition().width) {
+		if (ball.getShape().getPosition().x > getPosition().left  && (getPosition().left) <= window.getSize().x - getPosition().width) {
 			moveRight();
 		} else {
 			stopRight();

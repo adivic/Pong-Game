@@ -3,15 +3,12 @@
 Ball::Ball(float startX, float startY) {
 	mPosition.x = startX;
 	mPosition.y = startY;
-	mShape.setSize(sf::Vector2f(10,10));
 	mShape.setPosition(mPosition);
+	mShape.setRadius(7);
 }
 
-FloatRect Ball::getPosition() const {
-	return mShape.getGlobalBounds();
-}
 
-RectangleShape Ball::getShape() const {
+CircleShape Ball::getShape() const {
 	return mShape;
 }
 

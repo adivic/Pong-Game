@@ -42,28 +42,39 @@ void Game::handlePlayerInput(sf::RenderWindow& window, Bat& bat) {
 void Game::checkCollision(RenderWindow& window, Ball &ball, Bat& bat, Bat& aiBat) {
 	
 	//ball hits sides
-	if (ball.getPosition().left < 0 || ball.getPosition().left + ball.getPosition().width > window.getSize().x) {
+	if (ball.getShape().getPosition().x < 0 || ball.getShape().getPosition().x + ball.getShape().getRadius() > window.getSize().x) {
 		ball.reboundSides();
 	}
 	
-	if (ball.getPosition().top > window.getSize().y) {
+	if (ball.getShape().getPosition().y > window.getSize().y) {
 		ball.reboundBottom(window);
 		mAiScore++;
 	}
 
-	if (ball.getPosition().intersects(aiBat.getPosition())) {
+	if (isOverlappinig(ball.getShape(), aiBat.getPosition())) {
 		ball.reboundBatOrTop();
 	}
 
 	//hits top
-	if (ball.getPosition().top < 0) {
+	if (ball.getShape().getPosition().y < 0) {
 		ball.hitTop(window.getSize().x/2, window.getSize().y/2);
 		mScore++;
 	}
 
-	if (ball.getPosition().intersects(bat.getPosition())) {
+	if (isOverlappinig(ball.getShape(), bat.getPosition())) {
 		ball.reboundBatOrTop();
 	}
+}
+
+bool Game::isOverlappinig(CircleShape circle, FloatRect rect) {
+	float distanceX = abs(circle.getPosition().x - rect.left);
+	float distanceY = abs(circle.getPosition().y - rect.top);
+
+	if (distanceX > (rect.width / 2 + circle.getRadius())) return false;
+	if (distanceY > (rect.height / 2 + circle.getRadius())) return false;
+
+	if (distanceX <= (rect.width / 2 + circle.getRadius())) return true;
+	if (distanceY <= (rect.height / 2 + circle.getRadius())) return false;
 }
 
 void Game::checkGameEnd() {
