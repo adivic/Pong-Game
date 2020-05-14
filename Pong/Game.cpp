@@ -1,86 +1,160 @@
 #include "Game.h"
+#include <sstream>
 
-Game::Game(sf::Vector2i screenResolution) {
-	mScreenResolution = screenResolution;
+Game::Game() {
+	mScreenResolution.x = VideoMode::getDesktopMode().width;
+	mScreenResolution.y = VideoMode::getDesktopMode().height;
+	mWindow.create(sf::VideoMode(800,600), "Pong", Style::Resize);
+	mBat = new Bat(mWindow.getSize().x / 2, mWindow.getSize().y - 20);
+	mAiBat = new Bat(mWindow.getSize().x / 2, 20);
+	mAiBat->setAiBatSpeed(280.f);
+	mBall = new Ball(mWindow.getSize().x / 2, 50);
+	mScore = 0;
+	mAiScore = 0;
 }
 
-sf::Vector2i Game::getScreenResolution() {
-	return mScreenResolution;
+void Game::update() {
+
+	initializeHud();
+
+	if (!bPaused) {
+		//update bat, ball and hud
+		mBat->update(mTime);
+		mBall->update(mTime);
+		mAiBat->aiMovement(*mBall, mWindow, mTime);
+
+		checkCollision();
+
+		setupHud();
+		
+	} else {
+		mAiHud.setPosition(mWindow.getSize().x + 50, mWindow.getSize().y + 150);
+		std::stringstream ss;
+		ss << "Game Over!!\n\nPress Enter to start \n\nEsc to close game";
+		mHud.setString(ss.str());
+		mHud.setPosition(mWindow.getSize().x *0.3, mWindow.getSize().y *.4);
+
+	}
+
+
 }
 
-int Game::getScore() const {
-	return mScore;
+void Game::setupHud() {
+	mHud.setPosition(20, mWindow.getSize().y - 40);
+	mAiHud.setPosition(20, 20);
+	std::stringstream ss;
+	std::stringstream ssAi;
+	ss << "Score: " << mScore;
+	mHud.setString(ss.str());
+	ssAi << "AI: " << mAiScore;
+	mAiHud.setString(ssAi.str());
 }
 
-int Game::getAiScore() const {
-	return mAiScore;
+void Game::initializeHud() {
+	mFont.loadFromFile("F:/C++ Projects/Pong/fonts/advanced_dot_digital-7.ttf");
+	mHud.setFont(mFont);
+	mHud.setCharacterSize(25);
+	mHud.setFillColor(sf::Color::White);
+
+	mAiHud.setFont(mFont);
+	mAiHud.setCharacterSize(25);
+	mAiHud.setFillColor(sf::Color::White);
 }
 
-void Game::handlePlayerInput(sf::RenderWindow& window, Bat& bat) {
+void Game::draw() {
+	mWindow.clear();
+	mWindow.draw(mHud);
+	mWindow.draw(mAiHud);
+	mWindow.draw(mBat->getShape());
+	mWindow.draw(mAiBat->getShape());
+	mWindow.draw(mBall->getShape());
+
+
+	mWindow.display();
+}
+
+void Game::run() {
+	while (mWindow.isOpen()) {
+		mTime = mClock.restart();
+		handleInput();
+		update();
+		draw();
+	}
+}
+
+void Game::handleInput() {
 	sf::Event event;
-	while (window.pollEvent(event)) {
+	while (mWindow.pollEvent(event)) {
 		if (event.type == Event::Closed)
-			window.close();
+			mWindow.close();
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Return)) {
+		if (bPaused) {
+			bPaused = false;
+		}
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::Escape))
-		window.close();
+		mWindow.close();
 
-	if (Keyboard::isKeyPressed(Keyboard::Left) && bat.getPosition().left >= 0) {
-		bat.moveLeft();
+	if (Keyboard::isKeyPressed(Keyboard::Left) && mBat->getPosition().left >= 0) {
+		mBat->moveLeft();
 	} else {
-		bat.stopLeft();
+		mBat->stopLeft();
 	}
 
-	if (Keyboard::isKeyPressed(Keyboard::Right) && (bat.getPosition().left) <= mScreenResolution.x - bat.getPosition().width) {
-		bat.moveRight();
+	if (Keyboard::isKeyPressed(Keyboard::Right) && (mBat->getPosition().left) <= mWindow.getSize().x - mBat->getPosition().width) {
+		mBat->moveRight();
 	} else {
-		bat.stopRight();
+		mBat->stopRight();
 	}
 }
 
-void Game::checkCollision(RenderWindow& window, Ball &ball, Bat& bat, Bat& aiBat) {
+void Game::checkCollision() {
 	
 	//ball hits sides
-	if (ball.getShape().getPosition().x < 0 || ball.getShape().getPosition().x + ball.getShape().getRadius() > window.getSize().x) {
-		ball.reboundSides();
+	if (mBall->getShape().getPosition().x < 0 || mBall->getShape().getPosition().x + mBall->getShape().getRadius() > mWindow.getSize().x) {
+		mBall->reboundSides();
 	}
 	
-	if (ball.getShape().getPosition().y > window.getSize().y) {
-		ball.reboundBottom(window);
+	if (mBall->getShape().getPosition().y > mWindow.getSize().y) {
+		mBall->reboundBottom(mWindow);
 		mAiScore++;
+		checkGameEnd();
 	}
 
-	if (isOverlappinig(ball.getShape(), aiBat.getPosition())) {
-		ball.reboundBatOrTop();
+	if (isOverlappinig(mBall->getShape(), mAiBat->getPosition())) {
+		mBall->reboundBatOrTop();
 	}
 
 	//hits top
-	if (ball.getShape().getPosition().y < 0) {
-		ball.hitTop(window.getSize().x/2, window.getSize().y/2);
+	if (mBall->getShape().getPosition().y < 0) {
+		mBall->hitTop(mWindow.getSize().x/2, mWindow.getSize().y/2);
 		mScore++;
+		checkGameEnd();
 	}
 
-	if (isOverlappinig(ball.getShape(), bat.getPosition())) {
-		ball.reboundBatOrTop();
+	if (isOverlappinig(mBall->getShape(), mBat->getPosition())) {
+		mBall->reboundBatOrTop();
 	}
 }
 
 bool Game::isOverlappinig(CircleShape circle, FloatRect rect) {
 	float distanceX = abs(circle.getPosition().x - rect.left);
 	float distanceY = abs(circle.getPosition().y - rect.top);
-
-	if (distanceX > (rect.width / 2 + circle.getRadius())) return false;
+	
+	/*if (distanceX > (rect.width / 2 + circle.getRadius())) return false;
 	if (distanceY > (rect.height / 2 + circle.getRadius())) return false;
 
 	if (distanceX <= (rect.width / 2 + circle.getRadius())) return true;
-	if (distanceY <= (rect.height / 2 + circle.getRadius())) return false;
+	if (distanceY <= (rect.height / 2 + circle.getRadius())) return false;*/
+	return circle.getGlobalBounds().intersects(rect);
 }
 
 void Game::checkGameEnd() {
-	if (mScore == 5 || mAiScore == 5) {
+	if (mScore == GAME_SCORE || mAiScore == GAME_SCORE) {
 		mScore = 0;
 		mAiScore = 0;
+		bPaused = true;
 	}
 }
-

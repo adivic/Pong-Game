@@ -1,26 +1,41 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "Bat.h"
 #include "Ball.h"
+#include "Bat.h"
+
+using namespace sf;
 
 class Game {
+
 private:
-	int mScore = 0;
-	int mAiScore = 0;
-	sf::Vector2i mScreenResolution;
+	const int GAME_SCORE = 5;
+	RenderWindow mWindow;
+	Clock mClock;
+	Time mTime;
+
+	Text mHud;
+	Text mAiHud;
+	Font mFont;
+
+	Bat* mBat;
+	Bat* mAiBat;
+	Ball* mBall;
+	
+	int mScore;
+	int mAiScore;
+	Vector2i mScreenResolution;
+	bool bPaused = false;
+
+	void checkCollision();
+	void checkGameEnd();
+	bool isOverlappinig(CircleShape circle, FloatRect rect);
+	void setupHud();
+	void initializeHud();
+	void handleInput();
+	void update();
+	void draw();
 
 public:
-	Game(sf::Vector2i screenResolution);
-	
-	sf::Vector2i getScreenResolution();
-
-	int getScore() const;
-	int getAiScore() const;
-
-	void handlePlayerInput(sf::RenderWindow& window, Bat& bat);
-	void checkCollision(RenderWindow& window, Ball &ball, Bat& bat, Bat&);
-
-	void checkGameEnd();
-
-	bool isOverlappinig(CircleShape circle, FloatRect rect);
+	Game();
+	void run();
 };

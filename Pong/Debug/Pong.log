@@ -1,8 +1,35 @@
 ﻿  Game.cpp
-f:\c++ projects\pong\pong\game.cpp(60): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+f:\c++ projects\pong\pong\game.cpp(8): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=unsigned int
           ]
-f:\c++ projects\pong\pong\game.cpp(78): warning C4715: 'Game::isOverlappinig': not all control paths return a value
+f:\c++ projects\pong\pong\game.cpp(9): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+f:\c++ projects\pong\pong\game.cpp(11): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+f:\c++ projects\pong\pong\game.cpp(31): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+f:\c++ projects\pong\pong\game.cpp(35): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+f:\c++ projects\pong\pong\game.cpp(43): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+f:\c++ projects\pong\pong\game.cpp(132): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+  Pong.cpp
+  Generating Code...
   Pong.vcxproj -> F:\C++ Projects\Pong\Debug\Pong.exe
